@@ -1,78 +1,90 @@
+// 	VARIABLES
+let seaLevel = 200;
+let winWidth = window.innerWidth;
+let winHeight = window.innerHeight;
+let oceanColor = /*hexcode*/;
+
 function setup() {
 	createCanvas(windowWidth, windowHeight);
-	background('#b2fcff');
+	background(oceanColor);
 	frameRate(30);
 }
 
-let wave = function(xp){
-	this.xp1 = //fill in the blank//
-	this.yp1 = //fill in the blank//
-	this.yp2 = //fill in the blank//
+
+////////////////////////
+// WAVES (SAMPLE OBJECT)
+////////////////////////
+/**
+ * Wave constructor
+ * 	 	   			*	<- (xp2, yp2)
+ * 		  		   ***
+ *  	 		  *****
+ * (xp1, yp2) -> ******* <- (xp3, yp3)
+ * @param {*} xp - x coordinate that the wave will spawn in
+ */
+let wave = function(xp) {
+	this.xp1 = xp;
+	this.yp1 = seaLevel; // y coordinate that the wave will spawn in
+	this.yp2 = seaLevel - 20; // y -coordinate of the peak of the wave
 }
 
+function drawWave( x1, y1, y2) {
+	fill('#ffffff');
+	triangle(x1, y1, x1 + 25, y2, x1 + 50, y1); // the white wave in the back
+	fill(waterColor);
+	triangle(x1, y1, x1 + 25,  y2 + 10, x1 + 50,y1); // the blue wave in the front
+}
 
-function moveWave( wave ){
-	wave.xp1 +=  //fill in the blank//;
-	if( wave.xp1 > windowWidth){ //windowWidht means that is goes beyond our screen
-		wave.xp1 = //fill in the blank//;
-		wave.yp2 =//fill in the blank//;
+function moveWave(wave){
+	wave.xp1 +=  5;	// move to the right
+	wave.yp2 += Math.random()*2 -1; // move randomly up and down
+
+	if( wave.xp1 > windowWidth){ // restart at spawn when it passes the width of the screen
+		wave.xp1 = -50;
+		wave.yp2 = seaLevel - 20;
 	}
-	wave.yp2 += //fill in the blank//;
 }
 
+waves1 = new wave(-50); // instatiate wave 1
+waves2 = new wave(-100); // instatiate wave 2
 
-function drawWave( x1, y1, y2){
-	// fill in the color of the backWave
-	triangle(//fill in the blank//);
-	fill('#90e2fd');
-	triangle(x1, y1, x1+25,  y2+10, x1+50,y1); //this the white part of the wave
+
+/////////////////////
+// RECTTRASH (PART 2)
+/////////////////////
+
+let rectTrash = function() {
+	this.xp = /*fill in the blank*/,
+	this.yp = /*fill in the blank*/,
+	this.width = /*fill in the blank*/,
+	this.height = /*fill in the blank*/,
+	this.color = /*fill in the blank*/
 }
 
-
-let rectTrash = function(){
-	this.xp = //fill in the blank//; xp = x point ( like on a xy graph)
-	this.yp = //fill in the blank//; xp = y point ( like on a xy graph)
-	this.width = //fill in the blank//;
-	this.height = //fill in the blank//
-	this.red = //fill in the blank//
-	this.green =//fill in the blank//
-	this.blue = //fill in the blank//
-
-}
-
-function drawRectTrash( trash ){
+function drawRectTrash(trash){
 	stroke(0);
 	strokeWeight(2);
-	fill(trash.red, trash.green, trash.blue);
-	rect(trash.xp, trash.yp, trash.width, trash.height);
-	rectMode(CORNER);
+	fill(/*fill in the blank*/); // color
+	rect(/*fill in the blank*/); // x, y, width, height
 }
 
-function rectTrashMove( trash ){
-	trash.xp += //fill in the blank//;
-	trash.yp += //fill in the blank//;
+function rectTrashMove(trash){
+	trash.xp += /*fill in the blank*/, // x displacement per frame
+	trash.yp += /*fill in the blank*/, // y displacement per frame
 }
-
-
-let waves = [];
-waves[0] = new wave(-50);
-waves[1] = new wave(-100);
 
 let rectTrashes = [];
-for(let i = 0; i < //fill in the blank// ; i++){ how many pieces of trash do you want to form
+for(let i = 0; i < /*number of trash*/; i++){
 	rectTrashes[i] = new rectTrash();
 }
 
-class Fish {
-	constructor(){
-	this.xp = //fill in the blank//
-	this.yp = //fill in the blank//
-}
-}
+/////////////////////
+// FISH (PART 3)
+/////////////////////
 
-let fishes = [];
-for(let i = 0; i < 100; i++){
-	fishes[i] = new Fish();
+let Fish = function() {
+	this.xp = /*fill in the blank*/,
+	this.yp = /*fill in the blank*/
 }
 
 function drawFish(xp,yp){
@@ -84,27 +96,40 @@ function drawFish(xp,yp){
 	//triangle( x & y of first point , x & y of second point, x & y of third point) fish tail
 }
 
+function fishMove(fish){
+	fish.x -= 5;
+	if(fish.x <= -30){
+		fish.x = windowWidth + Math.random() * 100;
+	}
+}
 
+let fishes = [];
+for(let i = 0; i < 100; i++){
+	fishes[i] = new Fish();
+}
 
 function draw() {
-	background('#b2fcff');
-	fill('#90e2fd');
+	////////////////////////////
+	// SETUP BACKGROUND (STEP 1)
+	////////////////////////////
+	background(/*fill in the blank*/); // background (sky) color
+	fill(/*fill in the blank*/); // ocean color
 	noStroke();
-	rect(0, 200, windowWidth, windowHeight);
-	for(var i = 0; i < waves.length; i++){
-		drawWave( waves[i].xp1, waves[i].yp1, waves[i].yp2);
-		moveWave(waves[i]);
-	}
+	rect(/*fill in the blank*/); // ocean
+
+
+	drawWave(waves1.xp1, waves1.yp1, waves1.yp2);
+	moveWave(waves1);
+	drawWave(waves2.xp1, waves2.yp1, waves2.yp2);
+	moveWave(waves2);
+
 	for(var j = 0; j < rectTrashes.length; j++){
 		drawRectTrash(rectTrashes[j]);
 		rectTrashMove(rectTrashes[j]);
 	}
 
 	for(let i = 0; i < fishes.length; i++){
-			drawFish(fishes[i].x, fishes[i].y)
-			fishes[i].x -= 5;
-			if(fishes[i].x <= 0){
-				fishes[i].x = windowWidth;
-			}
+		drawFish(fishes[i].x, fishes[i].y);
+		fishMove(fish[i]);
 	}
 }
