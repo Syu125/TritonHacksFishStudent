@@ -61,6 +61,12 @@ let rectTrash = function() {
 	this.color = /*fill in the blank*/
 }
 
+let rectTrashes = [];
+for(let i = 0; i < /*number of trash*/; i++){
+	rectTrashes[i] = new rectTrash();
+}
+
+
 function drawRectTrash(trash){
 	stroke(0);
 	strokeWeight(2);
@@ -73,10 +79,6 @@ function rectTrashMove(trash){
 	trash.yp += /*fill in the blank*/, // y displacement per frame
 }
 
-let rectTrashes = [];
-for(let i = 0; i < /*number of trash*/; i++){
-	rectTrashes[i] = new rectTrash();
-}
 
 /////////////////////
 // FISH (PART 3)
@@ -97,9 +99,9 @@ function drawFish(xp,yp){
 }
 
 function fishMove(fish){
-	fish.x -= 5;
-	if(fish.x <= -30){
-		fish.x = windowWidth + Math.random() * 100;
+	fish.xp -= 5;
+	if(fish.xp <= -30){
+		fish.xp = windowWidth + Math.random() * 100;
 	}
 }
 
@@ -129,7 +131,7 @@ function draw() {
 	}
 
 	for(let i = 0; i < fishes.length; i++){
-		drawFish(fishes[i].x, fishes[i].y);
+		drawFish(fishes[i].xp, fishes[i].yp);
 		fishMove(fish[i]);
 	}
 }
